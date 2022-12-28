@@ -1,9 +1,9 @@
 package com.andersen.corgiapp.service;
 
-import com.andersen.corgiapp.entity.User;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.andersen.corgiapp.entity.User;
 
 public interface UserService {
 
