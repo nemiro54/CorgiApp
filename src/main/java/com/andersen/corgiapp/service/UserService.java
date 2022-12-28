@@ -16,7 +16,7 @@ public interface UserService {
     /**
      * Find all users {@link User}
      * @param userId provided User ID
-     * @return {@link User} with provided User ID or {@link Optional} object otherwise
+     * @return {@link User} with provided User ID
      */
     User find(long userId);
 

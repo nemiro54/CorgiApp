@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Добавить пользователя</title>
+    <title>Add user</title>
 </head>
 <body>
 <form action="save" method="post">
