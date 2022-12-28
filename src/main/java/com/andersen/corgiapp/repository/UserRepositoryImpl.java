@@ -42,7 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
             statement.setLong(1, userId);
             ResultSet res = statement.executeQuery();
             if (res.next()) {
-                return mapRowToList(res);
+                return mapRowToUser(res);
             } else {
                 throw new ModelNotFoundException(userId, User.class.getSimpleName());
             }
@@ -57,7 +57,7 @@ public class UserRepositoryImpl implements UserRepository {
             ResultSet res = statement.executeQuery();
             List<User> users = new ArrayList<>();
             while (res.next()) {
-                users.add(mapRowToList(res));
+                users.add(mapRowToUser(res));
             }
             return users;
         } catch (SQLException e) {
@@ -93,7 +93,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    private User mapRowToList(ResultSet res) throws SQLException {
+    private User mapRowToUser(ResultSet res) throws SQLException {
         int id = res.getInt("id");
         String name = res.getString("name");
         String surname = res.getString("surname");
