@@ -1,12 +1,14 @@
+package com.andersen.corgiapp.service;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.andersen.corgiapp.connection.DatabaseConnection;
@@ -28,7 +30,7 @@ public class UserRepositoryTest {
     Connection connection;
     UserRepository userRepository;
 
-    @BeforeAll
+    @BeforeEach
     public void before() {
         try {
             DatabaseConnection.setDatabaseProperties(new TestDataProperties());
@@ -86,7 +88,7 @@ public class UserRepositoryTest {
         Assertions.assertEquals(userDb, updatedUser);
     }
 
-    @AfterAll
+    @AfterEach
     public void after() throws SQLException {
         this.connection.close();
     }

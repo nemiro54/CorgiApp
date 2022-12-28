@@ -9,17 +9,24 @@ import com.andersen.corgiapp.entity.User;
 import com.andersen.corgiapp.exception.FieldLengthExceedException;
 import com.andersen.corgiapp.exception.NegativeAgeException;
 import com.andersen.corgiapp.exception.RequiredFieldIsEmptyException;
+import com.andersen.corgiapp.repository.UserRepository;
 
 public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    private final UserRepository userRepository;
+
     private static final int FIELD_MAX_LENGTH = 100;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public void save(User user) {
         validate(user);
-        user.setId(1); // TODO user = userRepository.save(user);
+        user = userRepository.save(user);
         log.info("Successfully created user with id {}", user.getId());
     }
 

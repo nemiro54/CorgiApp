@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.andersen.corgiapp.entity.User;
+import com.andersen.corgiapp.repository.UserRepository;
+import com.andersen.corgiapp.repository.UserRepositoryImpl;
 import com.andersen.corgiapp.service.UserService;
 import com.andersen.corgiapp.service.UserServiceImpl;
 
@@ -32,7 +34,8 @@ public class SaveServlet extends HttpServlet {
     private final UserService userService;
 
     public SaveServlet() {
-        userService = new UserServiceImpl();
+        UserRepository userRepository = new UserRepositoryImpl();
+        userService = new UserServiceImpl(userRepository);
     }
 
     @Override

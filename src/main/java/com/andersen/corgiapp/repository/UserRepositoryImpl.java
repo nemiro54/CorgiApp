@@ -17,7 +17,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String QUERY_FOR_UPDATE = "UPDATE users SET name = ?, surname = ?, age = ? WHERE id = ?";
     private static final String QUERY_FOR_DELETE = "DELETE FROM users WHERE id = ?";
 
-    public void save(User user) {
+    public User save(User user) {
         try (Connection connection = DatabaseConnection.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVING, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
@@ -31,6 +31,8 @@ public class UserRepositoryImpl implements UserRepository {
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getLong(1));
             }
+
+            return user;
         } catch (SQLException e) {
             throw new QueryExecutionException(String.format("Can't save user. No rows affected. User: %s", user));
         }

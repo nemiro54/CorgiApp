@@ -1,3 +1,5 @@
+package com.andersen.corgiapp.service;
+
 import com.andersen.corgiapp.connection.DatabaseProperties;
 import com.andersen.corgiapp.exception.FileNotValidException;
 import org.apache.commons.configuration.ConfigurationException;
