@@ -1,9 +1,9 @@
 package com.andersen.corgiapp.service;
 
-import com.andersen.corgiapp.entity.User;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.andersen.corgiapp.entity.User;
 
 public interface UserService {
 
@@ -16,7 +16,7 @@ public interface UserService {
     /**
      * Find all users {@link User}
      * @param userId provided User ID
-     * @return {@link User} with provided User ID or {@link Optional} object otherwise
+     * @return {@link User} with provided User ID
      */
     User find(long userId);
 
