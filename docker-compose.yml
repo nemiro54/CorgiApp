@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   postgres:
-    image: postgres:13.8
+    image: postgres:14.6
     container_name: postgres
     restart: on-failure
     ports:
