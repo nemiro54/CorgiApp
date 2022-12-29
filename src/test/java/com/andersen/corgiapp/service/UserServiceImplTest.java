@@ -1,5 +1,6 @@
 package com.andersen.corgiapp.service;
 
+import com.andersen.corgiapp.exception.ModelNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,5 +50,20 @@ public class UserServiceImplTest {
         user.setSurname("dN8g1AaVxPjkKMY46Lh9cdWryJC5uXattOFiPmYBZYGVK8OTzTMNS6Lq8iKwfvpxn5nkibczCoHxhy7gPKSZNddsLCmHkIQ2JTEZgs");
         user.setAge(18);
         Assertions.assertThrows(FieldLengthExceedException.class, () -> userService.save(user));
+    }
+
+    @Test
+    void findUserByNegativeId(){
+        Mockito.when(userRepository.get(-1)).thenThrow(new ModelNotFoundException(-1, User.class.getSimpleName()));
+        Assertions.assertThrows(ModelNotFoundException.class, () -> userService.find(-1));
+    }
+
+    @Test
+    void findUserByNormalId(){
+        User actualUser = new User("Vitalik", "Ivanov", 32);
+        actualUser.setId(1);
+        Mockito.when(userRepository.get(1)).thenReturn(actualUser);
+        User user = userService.find(1);
+        Assertions.assertEquals(user, actualUser);
     }
 }

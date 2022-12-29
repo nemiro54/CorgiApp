@@ -1,15 +1,14 @@
 package com.andersen.corgiapp.service;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.andersen.corgiapp.entity.User;
 import com.andersen.corgiapp.exception.FieldLengthExceedException;
 import com.andersen.corgiapp.exception.NegativeAgeException;
 import com.andersen.corgiapp.exception.RequiredFieldIsEmptyException;
 import com.andersen.corgiapp.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
@@ -32,7 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User find(long userId) {
-        return null;
+        User user = userRepository.get(userId);
+        log.info("Successfully found user with id {}", userId);
+        return user;
     }
 
     @Override
