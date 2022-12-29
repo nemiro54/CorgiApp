@@ -16,9 +16,7 @@ import java.io.IOException;
 @WebServlet(name = "UserDetailsServlet", value = "/users/details")
 public class UserDetailsServlet extends HttpServlet {
     public static final String ID_PARAMETER = "id";
-    public static final String NAME_PARAMETER = "name";
-    public static final String SURNAME_PARAMETER = "surname";
-    public static final String AGE_PARAMETER = "age";
+    public static final String USER_PARAMETER = "user";
 
     private static final String ERROR_ATTRIBUTE_NAME = "errorMessage";
 
@@ -38,9 +36,7 @@ public class UserDetailsServlet extends HttpServlet {
             long userId = Long.parseLong(request.getParameter(ID_PARAMETER));
             User user = userService.find(userId);
 
-            request.setAttribute(NAME_PARAMETER, user.getName());
-            request.setAttribute(SURNAME_PARAMETER, user.getSurname());
-            request.setAttribute(AGE_PARAMETER, user.getAge());
+            request.setAttribute(USER_PARAMETER, user);
 
             request.getRequestDispatcher(USER_DETAILS_PATH).forward(request, response);
         } catch (RuntimeException e) {
