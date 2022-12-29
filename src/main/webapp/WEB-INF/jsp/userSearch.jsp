@@ -10,7 +10,7 @@
 <body>
 <form action="details" method="get">
   <label for="id">User's ID</label>
-  <input id="id" name="id" type="number" min="0">
+  <input id="id" name="id" type="number" min="1">
   <br><br>
 
   <button type="submit">Find user</button>
