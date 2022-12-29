@@ -10,7 +10,7 @@
     <h2>Users: </h2>
 
     <c:choose>
-        <c:when test="${users != null}">
+        <c:when test="${users != null && !users.isEmpty()}">
             <table>
                 <thead>
                 <tr>
