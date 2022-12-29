@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet(name = "EditUserServlet", value = "/users/edit")
 public class EditUserServlet extends HttpServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(SaveServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(EditUserServlet.class);
 
     public static final String USER_EDIT_PATH = "/WEB-INF/jsp/editUser.jsp";
     private static final String USER_LIST_PATH = "/users";
