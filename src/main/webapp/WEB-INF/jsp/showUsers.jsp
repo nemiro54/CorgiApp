@@ -35,7 +35,7 @@
             <br>
         </c:when>
         <c:otherwise>
-            <H3>There aren no users.</H3>
+            <H3>There are no users.</H3>
             <br>
         </c:otherwise>
     </c:choose>
