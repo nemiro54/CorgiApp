@@ -1,8 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="errorMessage" class="java.lang.String" scope="request"/>
-
 <html>
 <head>
     <title>Show all users</title>
