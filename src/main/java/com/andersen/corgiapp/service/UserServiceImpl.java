@@ -42,7 +42,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
-
+        validate(user);
+        userRepository.update(user);
+        log.info("Successfully edited user with id {}", user.getId());
     }
 
     @Override
