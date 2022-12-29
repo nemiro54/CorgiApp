@@ -29,7 +29,7 @@
                         <td><c:out value="${users.getName()}"/>
                         <td><c:out value="${users.getSurname()}"/>
                         <td><c:out value="${users.getAge()}"/>
-                        <td><a href="/users/show?id=${users.id}">Show</a>
+                        <td><a href="/users/details?id=${users.id}">Show</a>
                     </tr>
                 </c:when>
                 <c:otherwise>
