@@ -14,6 +14,7 @@
 <p>Name: <%=name%></p>
 <p>Surname: <%=surname%></p>
 <p>Age: <%=age%></p>
-<p><a href="/users/search">Go back</a></p>
+<p><a href="/users/search">Use search</a></p>
+<p><a href="/users/">Show all users</a></p>
 </body>
 </html>
