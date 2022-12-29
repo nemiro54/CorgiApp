@@ -17,7 +17,7 @@
   <a href="<c:url value="/users"/> ">
     <button>Cancel</button>
   </a>
-  <p>${errorMessage}</p>
+  <p><%=errorMessage%></p>
 </form>
 </body>
 </html>

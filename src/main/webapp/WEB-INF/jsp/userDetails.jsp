@@ -10,10 +10,10 @@
     <title>User's details</title>
 </head>
 <body>
-<p>Id: ${id}</p>
-<p>Name: ${name}</p>
-<p>Surname: ${surname}</p>
-<p>Age: ${age}</p>
+<p>Id: <%=id%></p>
+<p>Name: <%=name%></p>
+<p>Surname: <%=surname%></p>
+<p>Age: <%=age%></p>
 <p><a href="/users/search">Go back</a></p>
 </body>
 </html>
