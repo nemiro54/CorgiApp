@@ -6,40 +6,39 @@
     <title>Show all users</title>
 </head>
 <body>
-
 <div>
     <h2>Users: </h2>
 
-    <table>
-        <thead>
-        <tr>
-            <th><b>Id</b></th>
-            <th><b>Name</b></th>
-            <th><b>Surname</b></th>
-            <th><b>Age</b></th>
-            <th><b>Show</b></th>
-        </tr>
-        </thead>
+    <c:choose>
+        <c:when test="${users != null}">
+            <table>
+                <thead>
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>Surname</b></th>
+                    <th><b>Age</b></th>
+                    <th><b>Show</b></th>
+                </tr>
+                </thead>
 
-        <tbody>
-        <c:forEach items="${users}" var="users">
-            <c:choose>
-                <c:when test="${users != null}">
+                <tbody>
+                <c:forEach items="${users}" var="user">
                     <tr>
-                        <td><c:out value="${users.getName()}"/>
-                        <td><c:out value="${users.getSurname()}"/>
-                        <td><c:out value="${users.getAge()}"/>
-                        <td><a href="/users/details?id=${users.id}">Show</a>
+                        <td><c:out value="${user.name}"/></td>
+                        <td><c:out value="${user.surname}"/></td>
+                        <td><c:out value="${user.age}"/></td>
+                        <td><a href="/users/details?id=${user.id}">Show</a></td>
                     </tr>
-                </c:when>
-                <c:otherwise>
-                    <H3>There aren't users.</H3>
-                    <br>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-        </tbody>
-    </table>
+                </c:forEach>
+                </tbody>
+            </table>
+            <br>
+        </c:when>
+        <c:otherwise>
+            <H3>There aren't users.</H3>
+            <br>
+        </c:otherwise>
+    </c:choose>
     <br>
 
     <div>

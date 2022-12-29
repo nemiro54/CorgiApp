@@ -17,7 +17,7 @@ public class DatabaseProperties {
     public void init() {
         PropertiesConfiguration config = new PropertiesConfiguration();
         try {
-            config.load("src/main/resources/db.properties");
+            config.load("db.properties");
         } catch (ConfigurationException e) {
             throw new FileNotValidException("Something wrong with db.properties file");
         }
