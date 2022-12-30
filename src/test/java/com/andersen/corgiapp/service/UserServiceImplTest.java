@@ -66,4 +66,17 @@ public class UserServiceImplTest {
         User user = userService.find(1);
         Assertions.assertEquals(user, actualUser);
     }
+
+    @Test
+    void deleteExistingUser() {
+        User user = new User(1, "Ivan", "Ivanov", 18);
+        Mockito.when(userRepository.get(1)).thenReturn(user);
+        userService.delete(user.getId());
+    }
+
+    @Test
+    void deleteNonExistingUser() {
+        Mockito.when(userRepository.get(1)).thenThrow(new ModelNotFoundException(1, User.class.getSimpleName()));
+        Assertions.assertThrows(ModelNotFoundException.class, () -> userService.delete(1));
+    }
 }
