@@ -13,14 +13,15 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "EditUserServlet", value = "/users/edit")
+@WebServlet(name = "EditUserServlet", value = "/users/update")
 public class EditUserServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(EditUserServlet.class);
 
     public static final String USER_EDIT_PATH = "/WEB-INF/jsp/editUser.jsp";
-    private static final String USER_LIST_PATH = "/users";
+    private static final String USER_DETAILS_PATH = "/users/details?id=%d";
 
+    private static final String USER_PARAMETER = "user";
     private static final String ID_PARAMETER = "id";
     private static final String NAME_PARAMETER = "name";
     private static final String SURNAME_PARAMETER = "surname";
@@ -36,11 +37,6 @@ public class EditUserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher(USER_EDIT_PATH).forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             long userId = Long.parseLong(request.getParameter(ID_PARAMETER));
@@ -52,10 +48,15 @@ public class EditUserServlet extends HttpServlet {
 
             userService.update(user);
 
-            response.sendRedirect(USER_LIST_PATH);
+            response.sendRedirect(String.format(USER_DETAILS_PATH, user.getId()));
         }
         catch (RuntimeException e) {
             log.warn("Can't update user cause: ", e);
+
+            long userId = Long.parseLong(request.getParameter(ID_PARAMETER));
+            User user = userService.find(userId);
+
+            request.setAttribute(USER_PARAMETER, user);
             request.setAttribute(ERROR_ATTRIBUTE_NAME, e.getMessage());
             request.getRequestDispatcher(USER_EDIT_PATH).forward(request, response);
         }
