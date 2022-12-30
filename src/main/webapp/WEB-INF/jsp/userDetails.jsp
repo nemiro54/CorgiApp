@@ -11,6 +11,7 @@
 <p>Name: ${user.name}</p>
 <p>Surname: ${user.surname}</p>
 <p>Age: ${user.age}</p>
+<p><a href="${pageContext.request.contextPath}/users/delete?id=${user.id}">Delete</a></p>
 <p><a href="${pageContext.request.contextPath}/users/search">Use search</a></p>
 <p><a href="${pageContext.request.contextPath}/users">Show all users</a></p>
 </body>

@@ -17,10 +17,10 @@ import com.andersen.corgiapp.repository.UserRepositoryImpl;
 import com.andersen.corgiapp.service.UserService;
 import com.andersen.corgiapp.service.UserServiceImpl;
 
-@WebServlet(name = "SaveServlet", value = "/users/save")
-public class SaveServlet extends HttpServlet {
+@WebServlet(name = "SaveUserServlet", value = "/users/save")
+public class SaveUserServlet extends HttpServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(SaveServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(SaveUserServlet.class);
 
     private static final String USER_LIST_PATH = "/users";
     private static final String NEW_USER_FORM_PATH = "/users/new";
@@ -33,7 +33,7 @@ public class SaveServlet extends HttpServlet {
 
     private final UserService userService;
 
-    public SaveServlet() {
+    public SaveUserServlet() {
         UserRepository userRepository = new UserRepositoryImpl();
         userService = new UserServiceImpl(userRepository);
     }
