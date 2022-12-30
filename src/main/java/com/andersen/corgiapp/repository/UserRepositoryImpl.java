@@ -19,11 +19,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     public User save(User user) {
         try (Connection connection = DatabaseConnection.getConnection()) {
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVING, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setInt(3, user.getAge());
             int affectedRows = statement.executeUpdate();
+
+            connection.commit();
+
             if (affectedRows == 0) {
                 throw new QueryExecutionException(String.format("Can't save user. No rows affected. User: %s", user));
             }
@@ -39,10 +45,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     public User get(long userId) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
+        try(Connection connection = DatabaseConnection.getConnection()){
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SINGLE_USER);
             statement.setLong(1, userId);
             ResultSet res = statement.executeQuery();
+
+            connection.commit();
+
             if (res.next()) {
                 return mapRowToUser(res);
             } else {
@@ -55,8 +67,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     public List<User> getAll() {
         try (Connection connection = DatabaseConnection.getConnection()) {
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_ALL_USERS);
             ResultSet res = statement.executeQuery();
+
+            connection.commit();
+
             List<User> users = new ArrayList<>();
             while (res.next()) {
                 users.add(mapRowToUser(res));
@@ -70,12 +88,18 @@ public class UserRepositoryImpl implements UserRepository {
 
     public void update(User user) {
         try (Connection connection = DatabaseConnection.getConnection()) {
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_UPDATE);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setInt(3, user.getAge());
             statement.setLong(4, user.getId());
             int affectedRows = statement.executeUpdate();
+
+            connection.commit();
+
             if (affectedRows == 0) {
                 throw new QueryExecutionException(String.format("Can't update user. No rows affected. User: %s", user));
             }
