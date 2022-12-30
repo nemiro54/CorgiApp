@@ -1,7 +1,6 @@
 package com.andersen.corgiapp.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.andersen.corgiapp.entity.User;
 
@@ -33,7 +32,7 @@ public interface UserService {
 
     /**
      * Delete user {@link User}
-     * @param user provide {@link User}
+     * @param userId provide id for {@link User}
      */
-    void delete(User user);
+    void delete(long userId);
 }

@@ -1,15 +1,16 @@
 package com.andersen.corgiapp.servlet;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-
 import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.andersen.corgiapp.entity.User;
 import com.andersen.corgiapp.exception.ModelNotFoundException;
 import com.andersen.corgiapp.repository.UserRepository;
 import com.andersen.corgiapp.repository.UserRepositoryImpl;
@@ -38,8 +39,7 @@ public class DeleteUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             long id = Long.parseLong(request.getParameter(ID_PARAMETER));
-            User user = userService.find(id);
-            userService.delete(user);
+            userService.delete(id);
             response.sendRedirect(request.getContextPath() + USER_LIST_PATH);
         }
         catch (ModelNotFoundException e) {
