@@ -28,8 +28,8 @@
                         <td><c:out value="${user.name}"/></td>
                         <td><c:out value="${user.surname}"/></td>
                         <td><c:out value="${user.age}"/></td>
-                        <td><a href="/users/details?id=${user.id}">Show</a></td>
-                        <td><a href="/users/edit?id=${user.id}">Edit</a></td>
+                        <td><a href="${pageContext.request.contextPath}/users/details?id=${user.id}">Show</a></td>
+                        <td><a href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edit</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

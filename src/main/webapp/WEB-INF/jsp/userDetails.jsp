@@ -8,10 +8,10 @@
 </head>
 <body>
 <p>Id: ${user.id}</p>
-<p>Name: ${user.name}></p>
+<p>Name: ${user.name}</p>
 <p>Surname: ${user.surname}</p>
 <p>Age: ${user.age}</p>
-<p><a href="/users/search">Use search</a></p>
-<p><a href="/users/">Show all users</a></p>
+<p><a href="${pageContext.request.contextPath}/users/search">Use search</a></p>
+<p><a href="${pageContext.request.contextPath}/users">Show all users</a></p>
 </body>
 </html>
