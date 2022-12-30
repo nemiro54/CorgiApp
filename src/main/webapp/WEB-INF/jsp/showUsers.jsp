@@ -27,7 +27,7 @@
                         <td><c:out value="${user.name}"/></td>
                         <td><c:out value="${user.surname}"/></td>
                         <td><c:out value="${user.age}"/></td>
-                        <td><a href="/users/details?id=${user.id}">Show</a></td>
+                        <td><a href="${pageContext.request.contextPath}/users/details?id=${user.id}">Show</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

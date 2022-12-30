@@ -8,16 +8,17 @@
     <title>Find user by id</title>
 </head>
 <body>
-<form action="details" method="get">
-  <label for="id">User's ID</label>
-  <input id="id" name="id" type="number" min="1">
-  <br><br>
+<form action="${pageContext.request.contextPath}/users/details" method="get">
+    <label for="id">User's ID</label>
+    <input id="id" name="id" type="number" min="1">
+    <br><br>
 
-  <button type="submit">Find user</button>
-  <a href="<c:url value="/users"/> ">
-    <button>Cancel</button>
-  </a>
-  <p><%=errorMessage%></p>
+    <button type="submit">Find user</button>
+    <a href="<c:url value="/users"/> ">
+        <input type="button" value="Cancel"/>
+    </a>
+    <p><%=errorMessage%>
+    </p>
 </form>
 </body>
 </html>
