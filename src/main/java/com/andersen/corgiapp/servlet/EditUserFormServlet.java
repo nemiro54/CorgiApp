@@ -1,6 +1,7 @@
 package com.andersen.corgiapp.servlet;
 
 import com.andersen.corgiapp.entity.User;
+import com.andersen.corgiapp.exception.ModelNotFoundException;
 import com.andersen.corgiapp.repository.UserRepository;
 import com.andersen.corgiapp.repository.UserRepositoryImpl;
 import com.andersen.corgiapp.service.UserService;
@@ -15,6 +16,7 @@ import java.io.IOException;
 public class EditUserFormServlet extends HttpServlet {
 
     public static final String USER_EDIT_PATH = "/WEB-INF/jsp/editUser.jsp";
+    private static final String USER_LIST_PATH = "/users";
 
     private static final String USER_PARAMETER = "user";
     private static final String ID_PARAMETER = "id";
@@ -28,11 +30,15 @@ public class EditUserFormServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long userId = Long.parseLong(request.getParameter(ID_PARAMETER));
-        User user = userService.find(userId);
+        try {
+            long userId = Long.parseLong(request.getParameter(ID_PARAMETER));
+            User user = userService.find(userId);
 
-        request.setAttribute(USER_PARAMETER, user);
-        request.getRequestDispatcher(USER_EDIT_PATH).forward(request, response);
+            request.setAttribute(USER_PARAMETER, user);
+            request.getRequestDispatcher(USER_EDIT_PATH).forward(request, response);
+        } catch (ModelNotFoundException e) {
+            request.getRequestDispatcher(USER_LIST_PATH).forward(request, response);
+        }
     }
 
     @Override

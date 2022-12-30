@@ -18,6 +18,7 @@
                     <th><b>Surname</b></th>
                     <th><b>Age</b></th>
                     <th><b>Show</b></th>
+                    <th><b>Edit</b></th>
                 </tr>
                 </thead>
 
@@ -28,6 +29,7 @@
                         <td><c:out value="${user.surname}"/></td>
                         <td><c:out value="${user.age}"/></td>
                         <td><a href="/users/details?id=${user.id}">Show</a></td>
+                        <td><a href="/users/edit?id=${user.id}">Edit</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
