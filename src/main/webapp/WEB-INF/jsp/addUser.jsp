@@ -21,7 +21,7 @@
 
     <button type="submit">Add user</button>
     <a href="<c:url value="/users"/> ">
-        <button>Cancel</button>
+        <input type="button" value="Cancel"/>
     </a>
     <p><%= errorMessage%></p>
 </form>

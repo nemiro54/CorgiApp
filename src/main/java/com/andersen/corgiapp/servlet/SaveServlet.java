@@ -48,7 +48,7 @@ public class SaveServlet extends HttpServlet {
 
             userService.save(user);
 
-            response.sendRedirect(USER_LIST_PATH);
+            response.sendRedirect(request.getContextPath() + USER_LIST_PATH);
         }
         catch (RuntimeException e) {
             log.warn("Can't create user cause: ", e);
