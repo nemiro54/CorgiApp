@@ -1,25 +1,23 @@
-package com.andersen.corgiapp.servlet;
+package com.andersen.corgiapp.servlet.command.impl;
 
-import com.andersen.corgiapp.entity.User;
-import com.andersen.corgiapp.repository.UserRepository;
-import com.andersen.corgiapp.repository.UserRepositoryImpl;
-import com.andersen.corgiapp.service.UserService;
-import com.andersen.corgiapp.service.UserServiceImpl;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-import java.io.IOException;
+import com.andersen.corgiapp.entity.User;
+import com.andersen.corgiapp.service.UserService;
+import com.andersen.corgiapp.servlet.command.Command;
 
-@WebServlet(name = "EditUserServlet", value = "/users/update")
-public class EditUserServlet extends HttpServlet {
-
-    private static final Logger log = LoggerFactory.getLogger(EditUserServlet.class);
+public class UpdateUserCommand implements Command {
 
     public static final String USER_EDIT_PATH = "/WEB-INF/jsp/editUser.jsp";
-    private static final String USER_DETAILS_PATH = "/users/details?id=%d";
+    private static final Logger log = LoggerFactory.getLogger(UpdateUserCommand.class);
+    private static final String USER_DETAILS_PATH = "%s/users/details?id=%d";
 
     private static final String USER_PARAMETER = "user";
     private static final String ID_PARAMETER = "id";
@@ -31,24 +29,22 @@ public class EditUserServlet extends HttpServlet {
 
     private final UserService userService;
 
-    public EditUserServlet() {
-        UserRepository userRepository = new UserRepositoryImpl();
-        userService = new UserServiceImpl(userRepository);
+    public UpdateUserCommand(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            long userId = Long.parseLong(request.getParameter(ID_PARAMETER));
-            User user = userService.find(userId);
-
+            User user = new User();
+            user.setId(Long.parseLong(request.getParameter(ID_PARAMETER)));
             user.setName(request.getParameter(NAME_PARAMETER));
             user.setSurname(request.getParameter(SURNAME_PARAMETER));
             user.setAge(Integer.parseInt(request.getParameter(AGE_PARAMETER)));
 
             userService.update(user);
 
-            response.sendRedirect(String.format(USER_DETAILS_PATH, user.getId()));
+            response.sendRedirect(String.format(USER_DETAILS_PATH, request.getContextPath(), user.getId()));
         }
         catch (RuntimeException e) {
             log.warn("Can't update user cause: ", e);

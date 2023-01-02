@@ -45,9 +45,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
+        User oldUser = userRepository.get(user.getId());
         validate(user);
         userRepository.update(user);
-        log.info("Successfully updated user with id {}", user.getId());
+        log.info("Successfully updated user with id {}", oldUser.getId());
     }
 
     @Override

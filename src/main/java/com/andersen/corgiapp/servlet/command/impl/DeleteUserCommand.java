@@ -1,10 +1,8 @@
-package com.andersen.corgiapp.servlet;
+package com.andersen.corgiapp.servlet.command.impl;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,15 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.andersen.corgiapp.exception.ModelNotFoundException;
-import com.andersen.corgiapp.repository.UserRepository;
-import com.andersen.corgiapp.repository.UserRepositoryImpl;
 import com.andersen.corgiapp.service.UserService;
-import com.andersen.corgiapp.service.UserServiceImpl;
+import com.andersen.corgiapp.servlet.command.Command;
 
-@WebServlet(name = "DeleteUserServlet", value = "/users/delete")
-public class DeleteUserServlet extends HttpServlet {
+public class DeleteUserCommand implements Command {
 
-    private static final Logger log = LoggerFactory.getLogger(DeleteUserServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(DeleteUserCommand.class);
 
     private static final String ID_PARAMETER = "id";
 
@@ -30,13 +25,12 @@ public class DeleteUserServlet extends HttpServlet {
 
     private final UserService userService;
 
-    public DeleteUserServlet() {
-        UserRepository userRepository = new UserRepositoryImpl();
-        userService = new UserServiceImpl(userRepository);
+    public DeleteUserCommand(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             long id = Long.parseLong(request.getParameter(ID_PARAMETER));
             userService.delete(id);
@@ -47,10 +41,5 @@ public class DeleteUserServlet extends HttpServlet {
             request.setAttribute(ERROR_ATTRIBUTE_NAME, e.getMessage());
             request.getRequestDispatcher(USER_LIST_PATH).forward(request, response);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
     }
 }
