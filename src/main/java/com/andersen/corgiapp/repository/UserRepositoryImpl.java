@@ -1,8 +1,8 @@
 package com.andersen.corgiapp.repository;
 
-import com.andersen.corgiapp.connection.DatabaseConnection;
+import com.andersen.corgiapp.connection.DataSource;
 import com.andersen.corgiapp.entity.User;
-import com.andersen.corgiapp.exception.ModelNotFoundException;
+import com.andersen.corgiapp.exception.EntityNotFoundException;
 import com.andersen.corgiapp.exception.QueryExecutionException;
 
 import java.sql.*;
@@ -17,18 +17,18 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String QUERY_FOR_UPDATE = "UPDATE users SET name = ?, surname = ?, age = ? WHERE id = ?";
     private static final String QUERY_FOR_DELETE = "DELETE FROM users WHERE id = ?";
 
-    public User save(User user) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
+    @Override
+    public User saveUser(User user) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVING,
+                     Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 
-            PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVING, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setInt(3, user.getAge());
             int affectedRows = statement.executeUpdate();
-
-            connection.commit();
 
             if (affectedRows == 0) {
                 throw new QueryExecutionException(String.format("Can't save user. No rows affected. User: %s", user));
@@ -38,82 +38,93 @@ public class UserRepositoryImpl implements UserRepository {
                 user.setId(generatedKeys.getLong(1));
             }
 
+            connection.commit();
+
             return user;
         } catch (SQLException e) {
             throw new QueryExecutionException(String.format("Can't save user. No rows affected. User: %s", user));
         }
     }
 
-    public User get(long userId) {
-        try(Connection connection = DatabaseConnection.getConnection()){
+    @Override
+    public User getUser(long userId) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SINGLE_USER)) {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 
-            PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SINGLE_USER);
             statement.setLong(1, userId);
             ResultSet res = statement.executeQuery();
 
-            connection.commit();
-
             if (res.next()) {
-                return mapRowToUser(res);
+                User user = mapRowToUser(res);
+                connection.commit();
+                return user;
             } else {
-                throw new ModelNotFoundException(userId, User.class.getSimpleName());
+                throw new EntityNotFoundException(userId, User.class.getSimpleName());
             }
+
         } catch (SQLException e) {
             throw new QueryExecutionException(String.format("Wrong id: %s", userId));
         }
     }
 
-    public List<User> getAll() {
-        try (Connection connection = DatabaseConnection.getConnection()) {
+    @Override
+    public List<User> getAllUsers() {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_ALL_USERS)) {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 
-            PreparedStatement statement = connection.prepareStatement(QUERY_FOR_ALL_USERS);
             ResultSet res = statement.executeQuery();
-
-            connection.commit();
 
             List<User> users = new ArrayList<>();
             while (res.next()) {
                 users.add(mapRowToUser(res));
             }
+
+            connection.commit();
+
             return users;
         } catch (SQLException e) {
             throw new QueryExecutionException("Can't get all employees");
         }
     }
 
-
-    public void update(User user) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
+    @Override
+    public void updateUser(User user) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_UPDATE)) {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 
-            PreparedStatement statement = connection.prepareStatement(QUERY_FOR_UPDATE);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setInt(3, user.getAge());
             statement.setLong(4, user.getId());
             int affectedRows = statement.executeUpdate();
 
-            connection.commit();
-
             if (affectedRows == 0) {
                 throw new QueryExecutionException(String.format("Can't update user. No rows affected. User: %s", user));
             }
+
+            connection.commit();
         } catch (SQLException e) {
             throw new QueryExecutionException(String.format("Can't update user. No rows affected. User: %s", user));
         }
     }
 
-    public void delete(long userId) {
-        get(userId);
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(QUERY_FOR_DELETE);
+    @Override
+    public void deleteUser(long userId) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_DELETE)) {
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
             statement.setLong(1, userId);
             statement.execute();
+
+            connection.commit();
         } catch (SQLException e) {
             throw new QueryExecutionException(String.format("Wrong id: %s", userId));
         }
