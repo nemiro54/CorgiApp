@@ -34,7 +34,7 @@ public class UserRepositoryTest {
             PreparedStatement statement = connection.prepareStatement(table);
             statement.execute();
         } catch (SQLException | IOException e) {
-            throw new NoConnectionException("Can't get database connection", e);
+            throw new NoConnectionException("Can't get database connection");
         }
     }
 

@@ -63,7 +63,6 @@ public class UserRepositoryImpl implements UserRepository {
             } else {
                 throw new EntityNotFoundException(userId, User.class.getSimpleName());
             }
-
         } catch (SQLException e) {
             throw new QueryExecutionException(String.format("Wrong id: %s", userId));
         }
