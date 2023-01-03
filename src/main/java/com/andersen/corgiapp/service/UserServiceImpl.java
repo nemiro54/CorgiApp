@@ -1,14 +1,15 @@
 package com.andersen.corgiapp.service;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.andersen.corgiapp.entity.User;
 import com.andersen.corgiapp.exception.FieldLengthExceedException;
 import com.andersen.corgiapp.exception.NegativeAgeException;
 import com.andersen.corgiapp.exception.RequiredFieldIsEmptyException;
 import com.andersen.corgiapp.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
@@ -25,36 +26,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         validate(user);
-        user = userRepository.save(user);
+        user = userRepository.saveUser(user);
         log.info("Successfully created user with id {}", user.getId());
     }
 
     @Override
     public User find(long userId) {
-        User user = userRepository.get(userId);
+        User user = userRepository.getUser(userId);
         log.info("Successfully found user with id {}", userId);
         return user;
     }
 
     @Override
     public List<User> findAll() {
-        List<User> users = userRepository.getAll();
+        List<User> users = userRepository.getAllUsers();
         log.info("Successfully showed all users");
         return users;
     }
 
     @Override
     public void update(User user) {
-        User oldUser = userRepository.get(user.getId());
+        User oldUser = userRepository.getUser(user.getId());
         validate(user);
-        userRepository.update(user);
+
+        userRepository.updateUser(user);
         log.info("Successfully updated user with id {}", oldUser.getId());
     }
 
     @Override
     public void delete(long userId) {
-        User user = userRepository.get(userId);
-        userRepository.delete(user.getId());
+        User user = userRepository.getUser(userId);
+        userRepository.deleteUser(user.getId());
         log.info("Successfully deleted user with id {}", user.getId());
     }
 

@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.andersen.corgiapp.entity.User;
-import com.andersen.corgiapp.exception.ModelNotFoundException;
+import com.andersen.corgiapp.exception.EntityNotFoundException;
 import com.andersen.corgiapp.service.UserService;
 import com.andersen.corgiapp.servlet.command.Command;
 
@@ -41,7 +41,7 @@ public class EditUserFormCommand implements Command {
             request.setAttribute(USER_PARAMETER, user);
             request.getRequestDispatcher(USER_EDIT_PATH).forward(request, response);
         }
-        catch (ModelNotFoundException e) {
+        catch (EntityNotFoundException e) {
             log.warn("Can't update user cause: ", e);
             request.setAttribute(ERROR_ATTRIBUTE_NAME, e.getMessage());
             request.getRequestDispatcher(USER_LIST_PATH).forward(request, response);

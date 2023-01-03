@@ -1,7 +1,5 @@
 package com.andersen.corgiapp.entity;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class User {
@@ -59,14 +57,6 @@ public class User {
         this.age = age;
     }
 
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("surname", surname);
-        map.put("name", name);
-        map.put("age", age);
-        return map;
-    }
-
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -76,7 +66,7 @@ public class User {
         }
         User user = (User) o;
         return age == user.age && Objects.equals(getName(), user.getName())
-            && Objects.equals(getSurname(), user.getSurname());
+                && Objects.equals(getSurname(), user.getSurname());
     }
 
     public int hashCode() {
@@ -85,10 +75,10 @@ public class User {
 
     public String toString() {
         return "User{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", surname='" + surname + '\'' +
-            ", age=" + age +
-            '}';
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
