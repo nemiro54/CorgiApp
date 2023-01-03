@@ -1,6 +1,6 @@
 package com.andersen.corgiapp.service;
 
-import com.andersen.corgiapp.exception.ModelNotFoundException;
+import com.andersen.corgiapp.exception.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class UserServiceImplTest {
     void saveUser() {
         User user = new User("Ivan", "Ivanov", 18);
         User createdUser = new User(1, "Ivan", "Ivanov", 18);
-        Mockito.when(userRepository.save(user)).thenReturn(createdUser);
+        Mockito.when(userRepository.saveUser(user)).thenReturn(createdUser);
         userService.save(user);
     }
 
@@ -54,15 +54,15 @@ public class UserServiceImplTest {
 
     @Test
     void findUserByNegativeId(){
-        Mockito.when(userRepository.get(-1)).thenThrow(new ModelNotFoundException(-1, User.class.getSimpleName()));
-        Assertions.assertThrows(ModelNotFoundException.class, () -> userService.find(-1));
+        Mockito.when(userRepository.getUser(-1)).thenThrow(new EntityNotFoundException(-1, User.class.getSimpleName()));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.find(-1));
     }
 
     @Test
     void findUserByNormalId(){
         User actualUser = new User("Vitalik", "Ivanov", 32);
         actualUser.setId(1);
-        Mockito.when(userRepository.get(1)).thenReturn(actualUser);
+        Mockito.when(userRepository.getUser(1)).thenReturn(actualUser);
         User user = userService.find(1);
         Assertions.assertEquals(user, actualUser);
     }
@@ -70,13 +70,13 @@ public class UserServiceImplTest {
     @Test
     void deleteExistingUser() {
         User user = new User(1, "Ivan", "Ivanov", 18);
-        Mockito.when(userRepository.get(1)).thenReturn(user);
+        Mockito.when(userRepository.getUser(1)).thenReturn(user);
         userService.delete(user.getId());
     }
 
     @Test
     void deleteNonExistingUser() {
-        Mockito.when(userRepository.get(1)).thenThrow(new ModelNotFoundException(1, User.class.getSimpleName()));
-        Assertions.assertThrows(ModelNotFoundException.class, () -> userService.delete(1));
+        Mockito.when(userRepository.getUser(1)).thenThrow(new EntityNotFoundException(1, User.class.getSimpleName()));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.delete(1));
     }
 }

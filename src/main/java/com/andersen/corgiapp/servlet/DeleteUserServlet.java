@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.andersen.corgiapp.exception.ModelNotFoundException;
+import com.andersen.corgiapp.exception.EntityNotFoundException;
 import com.andersen.corgiapp.repository.UserRepository;
 import com.andersen.corgiapp.repository.UserRepositoryImpl;
 import com.andersen.corgiapp.service.UserService;
@@ -42,7 +42,7 @@ public class DeleteUserServlet extends HttpServlet {
             userService.delete(id);
             response.sendRedirect(request.getContextPath() + USER_LIST_PATH);
         }
-        catch (ModelNotFoundException e) {
+        catch (EntityNotFoundException e) {
             log.warn("Can't delete user cause: ", e);
             request.setAttribute(ERROR_ATTRIBUTE_NAME, e.getMessage());
             request.getRequestDispatcher(USER_LIST_PATH).forward(request, response);
