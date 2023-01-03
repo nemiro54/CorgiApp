@@ -27,8 +27,11 @@ public class UserServiceImplTest {
     void saveUser() {
         User user = new User("Ivan", "Ivanov", 18);
         User createdUser = new User(1, "Ivan", "Ivanov", 18);
+
         Mockito.when(userRepository.save(user)).thenReturn(createdUser);
         userService.save(user);
+
+        Mockito.verify(userRepository).save(user);
     }
 
     @Test
@@ -49,6 +52,7 @@ public class UserServiceImplTest {
         user.setName("Ivan");
         user.setSurname("dN8g1AaVxPjkKMY46Lh9cdWryJC5uXattOFiPmYBZYGVK8OTzTMNS6Lq8iKwfvpxn5nkibczCoHxhy7gPKSZNddsLCmHkIQ2JTEZgs");
         user.setAge(18);
+
         Assertions.assertThrows(FieldLengthExceedException.class, () -> userService.save(user));
     }
 
@@ -60,18 +64,20 @@ public class UserServiceImplTest {
 
     @Test
     void findUserByNormalId(){
-        User actualUser = new User("Vitalik", "Ivanov", 32);
-        actualUser.setId(1);
+        User actualUser = new User(1,"Vitalik", "Ivanov", 32);
         Mockito.when(userRepository.get(1)).thenReturn(actualUser);
         User user = userService.find(1);
+
         Assertions.assertEquals(user, actualUser);
     }
 
     @Test
     void deleteExistingUser() {
         User user = new User(1, "Ivan", "Ivanov", 18);
-        Mockito.when(userRepository.get(1)).thenReturn(user);
+        Mockito.when(userRepository.get(user.getId())).thenReturn(user);
         userService.delete(user.getId());
+
+        Mockito.verify(userRepository).delete(user.getId());
     }
 
     @Test
