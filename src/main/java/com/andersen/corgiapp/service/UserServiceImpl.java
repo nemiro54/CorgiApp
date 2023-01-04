@@ -1,14 +1,15 @@
 package com.andersen.corgiapp.service;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.andersen.corgiapp.entity.User;
 import com.andersen.corgiapp.exception.FieldLengthExceedException;
 import com.andersen.corgiapp.exception.NegativeAgeException;
 import com.andersen.corgiapp.exception.RequiredFieldIsEmptyException;
 import com.andersen.corgiapp.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
@@ -45,9 +46,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
+        User oldUser = userRepository.getUser(user.getId());
         validate(user);
+
         userRepository.updateUser(user);
-        log.info("Successfully updated user with id {}", user.getId());
+        log.info("Successfully updated user with id {}", oldUser.getId());
     }
 
     @Override

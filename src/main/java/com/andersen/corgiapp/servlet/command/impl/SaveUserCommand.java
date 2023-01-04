@@ -1,10 +1,8 @@
-package com.andersen.corgiapp.servlet;
+package com.andersen.corgiapp.servlet.command.impl;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,15 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.andersen.corgiapp.entity.User;
-import com.andersen.corgiapp.repository.UserRepository;
-import com.andersen.corgiapp.repository.UserRepositoryImpl;
 import com.andersen.corgiapp.service.UserService;
-import com.andersen.corgiapp.service.UserServiceImpl;
+import com.andersen.corgiapp.servlet.command.Command;
 
-@WebServlet(name = "SaveUserServlet", value = "/users/save")
-public class SaveUserServlet extends HttpServlet {
+public class SaveUserCommand implements Command {
 
-    private static final Logger log = LoggerFactory.getLogger(SaveUserServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(SaveUserCommand.class);
 
     private static final String USER_LIST_PATH = "/users";
     private static final String NEW_USER_FORM_PATH = "/users/new";
@@ -33,13 +28,12 @@ public class SaveUserServlet extends HttpServlet {
 
     private final UserService userService;
 
-    public SaveUserServlet() {
-        UserRepository userRepository = new UserRepositoryImpl();
-        userService = new UserServiceImpl(userRepository);
+    public SaveUserCommand(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             User user = new User();
             user.setName(request.getParameter(NAME_PARAMETER));
